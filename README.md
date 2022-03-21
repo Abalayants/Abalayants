@@ -4,7 +4,7 @@ A Blackjack game for multiple users to simulate a casino table. The rules reflec
 
 <h2>Process</h2>
 
-For the visual plan: <a href="https://github.com/Abalayants/PersonalProjects/blob/main/blackjack%20diagram.png">please see diagram</a>. The main goal was to be able to have multiple players, for whom multiple hands had to be a possibility. Hence Hand and Player class are written separate, which will also allow for a dealer as well. 
+For the visual plan: <a href="https://github.com/Abalayants/PersonalProjects/blob/main/blackjack%20diagram.png">please see diagram</a>. The main goal was to be able to have multiple players, for whom multiple hands had to be a possibility. Hence, Hand and Player class are written separate, which will also allow for a dealer as well. 
 
 Note that a Game class was added later to organize the gameplay into appropriate parts. The Game class not only runs the game per the rules, but also uses function __call__ method for all the steps necessary to play a round. It also gives a way to show visual representation of the game "table," payouts of bets, and resetting of the table.
 

@@ -16,4 +16,4 @@ Note that a Game class was added later to organize the gameplay into appropriate
 
 <b>Typing</b>: Used for type-hinting.
 
-<b>Itertools</b>: Used for permutations for all possible values for the "A" card for calculating hand values. Product to create full deck from possible combinations.
+<b>Itertools</b>: Used for permutations for all possible values for the "A" card to calculate hand values. Product to create full deck from possible combinations.

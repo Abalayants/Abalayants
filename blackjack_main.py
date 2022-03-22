@@ -41,28 +41,26 @@ class Deck:
         random.shuffle(self.all_cards)
 
     def deal_cards(self, num_cards: int) -> List[Card]:
-        """
-        Returns cards: Card that is pulled from all_cards list
-        """
+        """Returns cards: Card that is pulled from all_cards list"""
         return [self.all_cards.pop() for _ in range(num_cards)]
 
     def __repr__(self):
-        """Return string representation of hand/s"""
+        """Return string representation of hand(s)"""
         return ", ".join(map(str, self.all_cards))
 
 
 @dataclass()
 class Hand:
-    """Class for individual hand. Player can have more than one for split function.
-
+    """
+    Class for individual hand. Player can have more than one for split function.
+    
     Attributes:
-        cards: List of all cards in hand
-        values: List of all potential values
-        bet: Integer value of the bet
-        is_bust: Boolean returning bust or not
-        is_blackjack: Boolean specifying if hand is blackjack
-        show_one_card: For Dealer, whether to show only card when printing the hand
-
+    cards: List of all cards in hand
+    values: List of all potential values
+    bet: Integer value of the bet
+    is_bust: Boolean returning bust or not
+    is_blackjack: Boolean specifying if hand is blackjack
+    show_one_card: For Dealer, whether to show only card when printing the hand
     """
 
     cards: List[Card] = field(default_factory=list)
@@ -87,13 +85,12 @@ class Hand:
         self.bet += value
 
     def add_cards(self, cards: List[Card]):
+        """Add card to hand and compute its value"""
         self.cards.extend(cards)
         self.process_hand()
 
     def process_hand(self):
-        """
-        Get all possible hand values, check for bust or blackjack
-        """
+        """Get all possible hand values, check for bust or blackjack"""
         self.compute_card_values()
         self.is_bust = all(map(lambda v: v > 21, self.values)) # boolean
         if len(self.cards) == 2: 
@@ -126,6 +123,7 @@ class Hand:
         return self.cards.pop()
 
     def __str__(self) -> str:
+        """Shows cards and their values in str format. 1 hidden for dealer. """
         if self.show_one_card:
             cards_str = "-".join(map(str, ["*", self.cards[-1]]))
             value_str = "*"
@@ -137,11 +135,7 @@ class Hand:
 
 @dataclass()
 class Player:
-    """
-    Class for creating any # of players, give them a name/hand/bank
-    
-    """
-
+    """Class for creating any # of players, give them a name/hand/bank"""
     name: str
     bank: int = 0
     # Assigns a hand object to a list belonging to a player
@@ -180,9 +174,7 @@ class Game:
             self.players.append(Player(player_name, player_bank))
 
     def reset_table(self):
-        """
-        Resets deck/hands/bets/dealer
-        """
+        """Resets deck/hands/bets/dealer"""
         self.dealers_hand = Hand(show_one_card=True)
         for player in self.players:
             player.reset_hand()
@@ -203,10 +195,10 @@ class Game:
     def __call__(self):
         """
         Function calls for the game class:
-            Gets bets and creates a hand for players
-            Checks for dealer blackjack
-            Asks to play again after the initial hand is played
-            Resets output screen
+        Gets bets and creates a hand for players
+        Checks for dealer blackjack
+        Asks to play again after the initial hand is played
+        Resets output screen
         """
         stop_game = False
 
@@ -273,16 +265,13 @@ class Game:
                     is_hand_done = bool(is_hand_done or hand.is_bust or hand.is_blackjack)
 
     def ask_player_decision(self, current_player, current_hand):
-        """
-        All possible actions a user can take to play each hand limited to rules of the game
-        """
+        """All possible actions a user can take to play each hand limited to rules of the game"""
         possible_decisions = ["hit", "stand"]
         if current_player.has_enough_money(current_hand.bet) and len(current_hand.cards) == 2:
             possible_decisions.append("double")
             if current_hand.cards[0].rank == current_hand.cards[1].rank:
                 possible_decisions.append("split")
-                # A concise way to check if original two cards = one another by using set
-                # if len(set(map(lambda card: card.rank, current_hand.cards))) == 1:
+
         self.print_table()
         decision = ""
         while decision not in possible_decisions:
@@ -299,7 +288,7 @@ class Game:
         self.print_table()
 
     def check_and_payout(self):
-
+        """All possible cases where a player wins and must be paid out. If house wins, nothing more happens"""
         for player in self.players:
             for hand in player.hands:
                 if not hand.is_bust:

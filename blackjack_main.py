@@ -5,6 +5,7 @@ from itertools import permutations, product
 from art import logo
 import os
 
+"""Global lists containing card information for deck creation"""
 RANKS = "2 3 4 5 6 7 8 9 10 J Q K A".split()
 SUITS = "♣ ♢ ♡ ♠".split()
 
@@ -32,7 +33,7 @@ class Deck:
     Allows for returned str representation
     """
 
-    """Using itertools to define a function to create a deck out of global variables RANKS & SUITS"""
+    """Using itertools to define a function which creates a deck out of global variables RANKS & SUITS"""
     init_deck = lambda: [Card(r, s) for r, s in product(RANKS, SUITS)]
     all_cards: List[Card] = field(default_factory=init_deck)
 
